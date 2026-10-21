@@ -4,9 +4,23 @@ A curated monorepo of reusable AI-agent skills and workflow contracts for **Lova
 
 The packages in this repository turn ambiguous build requests into explicit, reviewable workflows. They emphasize inspectable outputs, clear environment contracts, human approval for consequential actions, and a deliberate path from prototype to production.
 
-## Purpose
+## Why this exists
 
-Use this repository when you need a focused skill package for Lovable-oriented product work rather than a broad, always-on instruction set. Each package is self-contained and includes a `SKILL.md`, a package README, and a license. Import one package at a time so an agent receives only the context required for the task.
+**What it does.** Packages five skills, each a directory holding a `SKILL.md`, a package README, and a LICENSE, that an agent in Lovable (or v0 and Replit for the companion packages) loads to follow a fixed workflow with an output contract and guardrails. A dependency-free smoke suite (`tests/test_skill_catalog.py`) checks every package's front matter, required sections, and reference back to the source catalog, and runs in `.github/workflows/quality.yml` on every push and pull request.
+
+**Who it serves.** Builders working in Lovable who want a focused, importable skill for one phase of product work (build loop, UI prompt hardening, production handoff, Replit bootstrap, native packaging) rather than a broad, always-on instruction set. Import one package at a time so an agent receives only the context required for the task.
+
+**Why Alex built it.** The repository was created on 2026-07-29 with one commit that consolidated the packages (`a288dc1`: "feat: consolidate Lovable skill packages into monorepo"; repository description: "Consolidated Lovable skill packages from TechTide Harness Kit"). The package READMEs record the reason for the one-skill-per-package layout: each "intentionally contains one SKILL.md package so Lovable can import it without reading the full TechTide Harness Kit catalog", and each `SKILL.md` describes itself as "distilled from sanitized Alex Cinovoj / TechTide local workflow patterns". The baseline documents, the smoke suite, and the quality workflow followed on 2026-08-16 (`58b8b4c`, `4329640`, `46ceb35`). Created by Alex Cinovoj, Founder & CTO of TechTide AI.
+
+**Real-world use case (2025-2026 evidence).** **Proposed use case.** A Lovable workspace imports `techtide-lovable-production-handoff` as a skill, which Lovable documents as a named, markdown-based playbook with a description that tells Lovable when to use it and instructions it follows, importable from GitHub or a ZIP[^1], and applies it to turn a prototype into a repository-owned candidate with mocks inventoried, tests added, and deployment gates documented before promotion. The packages use the `SKILL.md` convention with `name` and `description` front matter that Anthropic introduced as Agent Skills on 2025-10-16[^2] and that is now an open specification[^3], which is what lets the same package travel to other harnesses. This repository verifies package structure with its smoke suite but holds no record of a completed Lovable import run, so the scenario is proposed rather than verified.
+
+[^1]: Lovable, "Define reusable instructions with skills", <https://docs.lovable.dev/features/skills>, updated 2026-09-25.
+[^2]: Anthropic, "Introducing Agent Skills", <https://claude.com/resources/articles/skills>, published 2025-10-16.
+[^3]: Agent Skills, "Specification", <https://agentskills.io/specification>, updated 2026-08-04.
+
+## Packages
+
+Each package is self-contained and includes a `SKILL.md`, a package README, and a license.
 
 | Package | Use it when you need to |
 | --- | --- |
@@ -28,7 +42,7 @@ cd techtide-lovable-skills
 less techtide-lovable-production-handoff/SKILL.md
 ```
 
-For Lovable, use the package’s dedicated repository path or import the package content according to your workspace’s skill-import flow. The single-package repositories referenced by the package READMEs are intentionally kept separate for workflows that require a direct GitHub import URL.
+For Lovable, use the package’s dedicated repository path or import the package content according to your workspace’s skill-import flow. The single-package repositories referenced by the package READMEs are intentionally kept separate for workflows that require a direct GitHub import URL. As of 2026-10-21 those single-package repositories are private, so their import URLs resolve only for accounts with access to the TechTideOhio organization.
 
 ## Typical use case
 
