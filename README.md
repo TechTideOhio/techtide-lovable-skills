@@ -42,7 +42,7 @@ cd techtide-lovable-skills
 less techtide-lovable-production-handoff/SKILL.md
 ```
 
-For Lovable, use the package’s dedicated repository path or import the package content according to your workspace’s skill-import flow. The single-package repositories referenced by the package READMEs are intentionally kept separate for workflows that require a direct GitHub import URL. As of 2026-10-21 those single-package repositories are private, so their import URLs resolve only for accounts with access to the TechTideOhio organization.
+For Lovable, import the package content (`SKILL.md` plus any `references/` files) according to your workspace’s skill-import flow. Lovable’s GitHub import expects a repository whose root is a single skill package, so to use that flow, copy the package directory to the root of a repository you control and import that URL. Each package README links its public source in this repository.
 
 ## Typical use case
 
