@@ -22,6 +22,10 @@ EXPECTED_PACKAGES = {
 }
 REQUIRED_SECTIONS = ("## Workflow", "## Output Contract", "## Guardrails")
 SOURCE_URL = "https://github.com/TechTideOhio/techtide-harness-kit"
+# TechTideOhio repositories that are public and may be linked from docs.
+# Linking any other TechTideOhio repository sends external users to a 404.
+PUBLIC_TECHTIDE_REPOS = {"techtide-lovable-skills", "techtide-harness-kit"}
+TECHTIDE_REPO_URL = re.compile(r"https://github\.com/TechTideOhio/([A-Za-z0-9._-]+)")
 
 
 class SkillCatalogSmokeTests(unittest.TestCase):
@@ -55,6 +59,23 @@ class SkillCatalogSmokeTests(unittest.TestCase):
             self.assertIn(package, content)
             self.assertIn(SOURCE_URL, content)
             self.assertRegex(content, r"https://github\.com/TechTideOhio/[a-z0-9-]+")
+
+    def test_docs_link_only_public_techtide_repositories(self) -> None:
+        for doc in sorted(ROOT.glob("**/*.md")):
+            if ".git" in doc.parts:
+                continue
+            content = doc.read_text(encoding="utf-8")
+            for match in TECHTIDE_REPO_URL.finditer(content):
+                repo = match.group(1).removesuffix(".git")
+                self.assertIn(repo, PUBLIC_TECHTIDE_REPOS, f"{doc.relative_to(ROOT)} links {match.group(0)}")
+
+    def test_package_readmes_link_public_source(self) -> None:
+        for package in sorted(EXPECTED_PACKAGES):
+            content = (ROOT / package / "README.md").read_text(encoding="utf-8")
+            self.assertIn(
+                f"https://github.com/TechTideOhio/techtide-lovable-skills/tree/main/{package}",
+                content,
+            )
 
     def test_root_readme_links_catalog_and_support_paths(self) -> None:
         content = (ROOT / "README.md").read_text(encoding="utf-8")
